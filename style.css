@@ -1,0 +1,259 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(-45deg, #f0f4ff, #e0f7ff, #c0eaff, #a0dfff);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  color: #333;
+}
+
+/* Animated Gradient Background */
+@keyframes gradientBG {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+/* Header */
+header {
+  background: linear-gradient(135deg, #004aad, #00c6ff);
+  color: white;
+  padding: 15px 0;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  perspective: 1000px;
+  animation: headerGlow 5s ease-in-out infinite alternate;
+}
+
+@keyframes headerGlow {
+  0% {box-shadow: 0 6px 20px rgba(0,0,0,0.3), 0 0 10px #00c6ff;}
+  50% {box-shadow: 0 6px 20px rgba(0,0,0,0.3), 0 0 20px #004aad;}
+  100% {box-shadow: 0 6px 20px rgba(0,0,0,0.3), 0 0 10px #00c6ff;}
+}
+
+/* Navigation */
+nav ul {
+  list-style: none;
+  margin-top: 10px;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: #ffcb05;
+  transform: scale(1.1) translateZ(5px);
+}
+
+/* Main Section */
+.main {
+  padding: 60px;
+  text-align: center;
+}
+
+.main h2 {
+  font-size: 2em;
+  color: #004aad;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+}
+
+.main p {
+  font-size: 1.1em;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+/* Glowing Button */
+.btn {
+  background: linear-gradient(135deg, #ffcb05, #ff6a00);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25), 0 0 8px #ffcb05;
+  animation: btnGlow 3s ease-in-out infinite alternate;
+}
+
+.btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.35), 0 0 20px #ff6a00;
+}
+
+@keyframes btnGlow {
+  0% {box-shadow: 0 6px 12px rgba(0,0,0,0.25), 0 0 10px #ffcb05;}
+  50% {box-shadow: 0 6px 12px rgba(0,0,0,0.25), 0 0 20px #ff6a00;}
+  100% {box-shadow: 0 6px 12px rgba(0,0,0,0.25), 0 0 10px #ffcb05;}
+}
+
+/* About Page */
+.about {
+  padding: 50px;
+  max-width: 800px;
+  margin: auto;
+  line-height: 1.8;
+}
+
+.about h2 {
+  color: #004aad;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.2);
+}
+
+.about ul {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+/* Sports Section */
+.sports-section {
+  padding: 50px;
+  text-align: center;
+}
+
+.sports-section h2 {
+  color: #004aad;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+}
+
+.sports-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  perspective: 1200px;
+}
+
+/* 3D Sport Card */
+.sport-card {
+  position: relative;
+  background: linear-gradient(145deg, #ffffff, #e0f0ff);
+  border-radius: 20px;
+  width: 250px;
+  overflow: hidden;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  box-shadow: 0 15px 25px rgba(0,0,0,0.2), inset 0 -5px 15px rgba(0,0,0,0.05);
+  animation: cardGlow 6s ease-in-out infinite alternate;
+}
+
+/* Particle Effect Behind Cards */
+.sport-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 2%, transparent 2%) repeat;
+  background-size: 10px 10px;
+  animation: particles 8s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 20px;
+}
+
+.sport-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), transparent 70%);
+  pointer-events: none;
+  border-radius: 20px;
+  z-index: 0;
+}
+
+.sport-card > * {
+  position: relative;
+  z-index: 1; /* Ensure content is above particles */
+}
+
+@keyframes particles {
+  0% {transform: translate(0,0);}
+  50% {transform: translate(20px,20px);}
+  100% {transform: translate(0,0);}
+}
+
+.sport-card img {
+  width: 100%;
+  border-radius: 20px 20px 0 0;
+  height: 160px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.sport-card h3 {
+  color: #004aad;
+  margin: 10px 0 5px;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+}
+
+.sport-card p {
+  padding: 0 15px 15px;
+  font-size: 0.95em;
+  color: #444;
+}
+
+.sport-card:hover {
+  transform: rotateX(8deg) rotateY(8deg) translateY(-10px);
+  box-shadow: 0 25px 35px rgba(0,0,0,0.35), inset 0 -8px 20px rgba(0,0,0,0.07);
+}
+
+.sport-card:hover img {
+  transform: scale(1.1) rotateZ(5deg);
+}
+
+@keyframes cardGlow {
+  0% {box-shadow: 0 15px 25px rgba(0,0,0,0.2), inset 0 -5px 15px rgba(0,0,0,0.05);}
+  50% {box-shadow: 0 20px 30px rgba(0,0,0,0.3), inset 0 -8px 20px rgba(0,0,0,0.08);}
+  100% {box-shadow: 0 15px 25px rgba(0,0,0,0.2), inset 0 -5px 15px rgba(0,0,0,0.05);}
+}
+
+/* Footer */
+footer {
+  background: linear-gradient(135deg, #004aad, #00c6ff);
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  box-shadow: 0 -6px 20px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 10;
+  animation: footerGlow 5s ease-in-out infinite alternate;
+}
+
+@keyframes footerGlow {
+  0% {box-shadow: 0 -6px 20px rgba(0,0,0,0.3), 0 0 15px #00c6ff;}
+  50% {box-shadow: 0 -6px 20px rgba(0,0,0,0.3), 0 0 30px #004aad;}
+  100% {box-shadow: 0 -6px 20px rgba(0,0,0,0.3), 0 0 15px #00c6ff;}
+}
+
+/* === VANTA Background Setup === */
+#vanta-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* ensures it's behind everything */
+  background: #f2f4f7; /* fallback background color */
+}

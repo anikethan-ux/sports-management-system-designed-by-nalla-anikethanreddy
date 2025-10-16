@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - College Sports Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+body { font-family:'Poppins',sans-serif; background:linear-gradient(135deg,#f0f4ff,#e0f7ff); color:#333; margin:0; padding:0; }
+h2 { text-align:center; color:#004aad; margin:40px 0 20px; }
+.games { display:flex; justify-content:center; flex-wrap:wrap; gap:25px; margin-bottom:40px; }
+.game-card { flex:1 1 220px; background:#fff; padding:25px; border-radius:25px; text-align:center; cursor:pointer; box-shadow:0 10px 25px rgba(0,0,0,0.3); transition:0.3s; color:#004aad; font-weight:700; font-size:1.2em; display:flex; flex-direction:column; align-items:center; }
+.game-card img { width:100px; height:100px; margin-bottom:15px; border-radius:15px; object-fit:cover; }
+.game-card:hover { transform:scale(1.05); box-shadow:0 15px 30px rgba(0,0,0,0.4); }
+
+.team-table { width:95%; margin:20px auto 30px auto; border-collapse:collapse; background:white; border-radius:20px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.2);}
+.team-table th, .team-table td { padding:12px; text-align:center; border-bottom:1px solid #ddd; font-weight:600; }
+.team-table th { background:#004aad; color:white; }
+.team-table tr:hover { transform:scale(1.02); transition:0.2s; }
+
+.team-table button { padding:6px 10px; background:#ff6a00; color:white; border:none; border-radius:6px; cursor:pointer; transition:0.3s; }
+.team-table button:hover { background:#ffcb05; color:#333; }
+
+#finalSelection { max-width:800px; margin:40px auto; background:white; padding:20px; border-radius:20px; box-shadow:0 10px 25px rgba(0,0,0,0.2); }
+#finalSelection h3 { text-align:center; margin-bottom:20px; color:#004aad; }
+.final-game { margin-bottom:30px; }
+.final-game h4 { margin-bottom:10px; }
+.fab { position: fixed; bottom:30px; right:30px; background: linear-gradient(45deg, #ff6a00, #ffcb05); color: white; border:none; width:60px; height:60px; font-size:2em; border-radius:50%; box-shadow:0 8px 25px rgba(0,0,0,0.3); cursor:pointer; transition:0.3s; z-index:200; }
+.fab:hover { transform: scale(1.1); }
+footer { text-align:center; padding:20px; background:#004aad; color:white; font-weight:600;}
+</style>
+</head>
+<body>
+
+<h2>Players by Game & Team</h2>
+<div class="games">
+<div class="game-card" data-sport="Volleyball"><img src="volley.jpg" alt="Volleyball">Volleyball</div>
+<div class="game-card" data-sport="Cricket"><img src="cricket.jpg" alt="Cricket">Cricket</div>
+<div class="game-card" data-sport="Football"><img src="football.jpg" alt="Football">Football</div>
+<div class="game-card" data-sport="Basketball"><img src="basket ball.jpg" alt="Basketball">Basketball</div>
+</div>
+
+<div id="sportPlayers"></div>
+
+<div id="finalSelection">
+<h3>Final Selected Players</h3>
+<div id="finalGames"></div>
+</div>
+
+<button class="fab" onclick="window.location.href='players.html'">➕</button>
+
+<footer>© 2025 All Rights Reserved | Designed by Anikethan</footer>
+
+<script>
+let players=JSON.parse(localStorage.getItem("players")||"[]");
+let finalPlayers=JSON.parse(localStorage.getItem("finalPlayers")||"{}");
+
+const gameCards=document.querySelectorAll(".game-card");
+const sportPlayersDiv=document.getElementById("sportPlayers");
+const finalGamesDiv=document.getElementById("finalGames");
+
+function saveFinalPlayers(){ localStorage.setItem("finalPlayers",JSON.stringify(finalPlayers)); }
+function updateFinalSection(){
+  finalGamesDiv.innerHTML="";
+  for(let sport in finalPlayers){
+    const div=document.createElement("div"); div.className="final-game";
+    div.innerHTML=`<h4>${sport}</h4>`;
+    const ul=document.createElement("ul");
+    finalPlayers[sport].forEach(p=>{
+      const li=document.createElement("li");
+      li.textContent=`${p.name} (${p.team}) `;
+      const delBtn=document.createElement("button"); delBtn.textContent="Delete";
+      delBtn.onclick=()=>{ finalPlayers[sport]=finalPlayers[sport].filter(x=>x.roll!==p.roll); saveFinalPlayers(); updateFinalSection(); };
+      li.appendChild(delBtn);
+      ul.appendChild(li);
+    });
+    div.appendChild(ul);
+    finalGamesDiv.appendChild(div);
+  }
+}
+updateFinalSection();
+
+function renderSportPlayers(sportName){
+  sportPlayersDiv.innerHTML=`<h3 style="text-align:center;margin:20px 0;">${sportName} Teams</h3>`;
+  const sportPlayers=players.filter(p=>p.sport===sportName);
+  const teams=['Red','Green','Yellow','Blue'];
+  teams.forEach(team=>{
+    const teamPlayers=sportPlayers.filter(p=>p.team===team);
+    const table=document.createElement("table"); table.className="team-table";
+    table.innerHTML=`<thead><tr><th>#</th><th>Roll</th><th>Name</th><th>Team</th><th>Age</th><th>Select</th></tr></thead><tbody></tbody>`;
+    const tbody=table.querySelector("tbody");
+    if(teamPlayers.length===0){ tbody.innerHTML=`<tr><td colspan="6">${team} Team has no players</td></tr>`; }
+    else{
+      teamPlayers.forEach((p,index)=>{
+        const tr=document.createElement("tr");
+        tr.innerHTML=`<td>${index+1}</td><td>${p.roll}</td><td>${p.name}</td><td>${p.team}</td><td>${p.age}</td>`;
+        const selectBtn=document.createElement("button"); selectBtn.textContent="Select";
+        selectBtn.onclick=()=>{
+          if(!finalPlayers[sportName]) finalPlayers[sportName]=[];
+          if(!finalPlayers[sportName].some(x=>x.roll===p.roll)){ finalPlayers[sportName].push(p); saveFinalPlayers(); updateFinalSection(); }
+        };
+        const td=document.createElement("td"); td.appendChild(selectBtn); tr.appendChild(td);
+        tbody.appendChild(tr);
+      });
+    }
+    const heading=document.createElement("h4"); heading.style.textAlign="center"; heading.textContent=`${team} Team`;
+    sportPlayersDiv.appendChild(heading); sportPlayersDiv.appendChild(table);
+  });
+  window.scrollTo({top:sportPlayersDiv.offsetTop-80,behavior:'smooth'});
+}
+
+gameCards.forEach(card=>card.addEventListener("click",()=>renderSportPlayers(card.dataset.sport)));
+</script>
+
+</body>
+</html>
