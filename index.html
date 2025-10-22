@@ -63,6 +63,11 @@ section.active{display:block}
 </head>
 <div id="vanta-bg"></div>
 <body>
+<div id="adminLogin" style="text-align:center; margin-top:20px;">
+  <input type="password" id="adminPass" placeholder="Enter Admin Password" style="padding:8px; border-radius:8px;">
+  <button onclick="checkAdmin()" style="padding:8px 14px; border:none; background:#004aad; color:#fff; border-radius:8px; cursor:pointer;">Login as Admin</button>
+</div>
+
 
 
 
@@ -259,6 +264,78 @@ VANTA.NET({
   showDots: true
 });
 </script>
+<script>
+let isAdmin = false;
+
+function checkAdmin() {
+  const pass = document.getElementById("adminPass").value;
+  if (pass === "anikethan123") { // 🔐 Change your password here
+    isAdmin = true;
+    alert("Admin access granted!");
+    document.getElementById("adminLogin").style.display = "none";
+    document.getElementById("logoutSection").style.display = "block";
+    enableEditing(true);
+  } else {
+    alert("Incorrect password!");
+  }
+}
+
+function logoutAdmin() {
+  isAdmin = false;
+  alert("You are now logged out.");
+  document.getElementById("adminLogin").style.display = "block";
+  document.getElementById("logoutSection").style.display = "none";
+  enableEditing(false);
+}
+
+function enableEditing(admin) {
+  const form = document.getElementById("playerForm");
+  const finishBtn = document.getElementById("finishToggle");
+  const toggleTournament = document.getElementById("toggleTournament");
+
+  if (admin) {
+    form.style.display = "block";
+    finishBtn.style.display = "inline-block";
+    toggleTournament.style.display = "inline-block";
+    document.querySelectorAll("button").forEach(btn => btn.disabled = false);
+  } else {
+    form.style.display = "none";
+    finishBtn.style.display = "none";
+    toggleTournament.style.display = "none";
+    document.querySelectorAll(".form-card button, .team-table button, .match-card button")
+      .forEach(btn => btn.disabled = true);
+  }
+}
+
+// Set page to view-only mode by default
+window.onload = () => enableEditing(false);
+</script>
+
+
+<div id="logoutSection" style="display:none; text-align:center; margin-top:15px;">
+  <button onclick="logoutAdmin()" 
+    style="padding:8px 14px; border:none; background:#ff4c4c; color:#fff; border-radius:8px; cursor:pointer;">
+    Logout Admin
+  </button>
+</div>
+
+
+
+
+</body>
+</html>
+ting(false);
+</script>
+
+
+<div id="logoutSection" style="display:none; text-align:center; margin-top:15px;">
+  <button onclick="logoutAdmin()" 
+    style="padding:8px 14px; border:none; background:#ff4c4c; color:#fff; border-radius:8px; cursor:pointer;">
+    Logout Admin
+  </button>
+</div>
+
+
 
 
 </body>
